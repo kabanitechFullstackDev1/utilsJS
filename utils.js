@@ -92,7 +92,8 @@ function fnDateTimeStampString() {
 	const dTEpoch = Date.now();
 	return {
 		dateTimeStampWithDelimiters: `${dT.getFullYear()}-${fnZeroPad(dT.getMonth() + 1, 2)}-${fnZeroPad(dT.getDate(), 2)}_${fnZeroPad(dT.getHours(), 2)}:${fnZeroPad(dT.getMinutes(), 2)}:${fnZeroPad(dT.getSeconds(), 2)}.${fnZeroPad(dT.getMilliseconds(), 3)}`,
-		dateTimeStampNoDelimiters: `${dT.getFullYear()}${fnZeroPad(dT.getMonth() + 1, 2)}${fnZeroPad(dT.getDate(), 2)}${fnZeroPad(dT.getHours(), 2)}${fnZeroPad(dT.getMinutes(), 2)}${fnZeroPad(dT.getSeconds(), 2)}${fnZeroPad(dT.getMilliseconds(), 3)}`
+		dateTimeStampNoDelimiters: `${dT.getFullYear()}${fnZeroPad(dT.getMonth() + 1, 2)}${fnZeroPad(dT.getDate(), 2)}${fnZeroPad(dT.getHours(), 2)}${fnZeroPad(dT.getMinutes(), 2)}${fnZeroPad(dT.getSeconds(), 2)}${fnZeroPad(dT.getMilliseconds(), 3)}`,
+		timeStamp: `${fnZeroPad(dT.getHours(), 2)}:${fnZeroPad(dT.getMinutes(), 2)}:${fnZeroPad(dT.getSeconds(), 2)}.${fnZeroPad(dT.getMilliseconds(), 3)}`
 	}
 }
 
