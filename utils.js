@@ -27,8 +27,11 @@ function fnIncludePrefixToConsole(dirname) {
 			const strMonth = strDate.substring(4, 6);
 			const strDay = strDate.substring(6, 8);
 			const strNameFileLog = `${strYear}-${strMonth}-${strDay}.log`;
-
-			fnUpdateLogFile(path.join(dirname, strNameFileLog), prefix + ' ' + firstArgument, ...otherArguments, "prepend");
+			let strOtherArgs = JSON.stringify(firstArgument);
+			otherArguments.forEach(args => {
+				strOtherArgs += ", " + JSON.stringify(args);
+			});
+			fnUpdateLogFile(path.join(dirname, strNameFileLog), prefix + ' ' + strOtherArgs, "prepend");
 			if (typeof firstArgument === 'string') {
 				originalLoggingMethod(prefix + ' ' + firstArgument, ...otherArguments);
 			} else {
