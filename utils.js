@@ -235,32 +235,36 @@ function fnGetDateStringsListBetweenTwoDateStrings(strDateFrom, strDateTo, forma
 }
 
 async function fnReadJSONFile(nameFileWithPath) {
-	try {
-		let rawdata = fs.readFileSync(nameFileWithPath);
-		let dataJSON = JSON.parse(rawdata);
-		//log(`${nameFileWithPath} loaded as ${rawdata}`);
-		return dataJSON;
-	} catch (e) {
-		log(e.toString());
-		return null;
-	}
+	return new Promise((fnSuccess, fnFailure) => {
+		try {
+			let rawdata = fs.readFileSync(nameFileWithPath);
+			let dataJSON = JSON.parse(rawdata);
+			//log(`${nameFileWithPath} loaded as ${rawdata}`);
+			fnSuccess(dataJSON);
+		} catch (e) {
+			log(e.toString());
+			fnFailure();
+		}
+	});
 }
 
 async function fnWriteJSONFile(nameFileWithPath, dataJSON) {
-	try {
-		let data = JSON.stringify(dataJSON);
-		fs.writeFileSync(nameFileWithPath, data);
-		if (fs.existsSync(nameFileWithPath)) {
-			//log(`${data} saved as ${nameFileWithPath}`);
-			return true;
-		} else {
-			log(`File not found!!! ${nameFileWithPath}`);
-			return false;
+	return new Promise((fnSuccess, fnFailure) => {
+		try {
+			let data = JSON.stringify(dataJSON);
+			fs.writeFileSync(nameFileWithPath, data);
+			if (fs.existsSync(nameFileWithPath)) {
+				//log(`${data} saved as ${nameFileWithPath}`);
+				fnSuccess(dataJSON);
+			} else {
+				log(`File not found!!! ${nameFileWithPath}`);
+				fnFailure();
+			}
+		} catch (e) {
+			log(e.toString());
+			fnFailure();
 		}
-	} catch (e) {
-		log(e.toString());
-	}
-	return false
+	})
 }
 
 function fnIsJSON(data) {
