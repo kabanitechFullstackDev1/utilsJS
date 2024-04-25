@@ -31,7 +31,7 @@ function fnIncludePrefixToConsole(dirname) {
 			otherArguments.forEach(args => {
 				strOtherArgs += ", " + JSON.stringify(args);
 			});
-			fnUpdateLogFile(path.join(dirname, strNameFileLog), prefix + ' ' + strOtherArgs, "prepend");
+			fnUpdateLogFile(path.join(dirname, strNameFileLog), prefix + ' ' + strOtherArgs, "append");
 			if (typeof firstArgument === 'string') {
 				originalLoggingMethod(prefix + ' ' + firstArgument, ...otherArguments);
 			} else {
@@ -55,6 +55,7 @@ function fnUpdateLogFile(pathFileLog, strLog, mode) {
 				//log('Saved!');
 			});
 		} else if (mode === "prepend") {
+			
 			//https://stackoverflow.com/a/49889780
 			const data = fs.readFileSync(pathFileLog);
 			const fd = fs.openSync(pathFileLog, 'w+');
@@ -64,6 +65,25 @@ function fnUpdateLogFile(pathFileLog, strLog, mode) {
 			fs.close(fd, (err) => {
 				if (err) throw err;
 			});
+			/*
+			const readStream = fs.createReadStream(pathFileLog);
+			const writeStream = fs.createWriteStream(pathFileLog, { flags: 'w+' });
+
+			writeStream.write(strLog + "\n");
+			readStream.pipe(writeStream);
+			
+			writeStream.on('close', () => {
+				//console.log('Write operation complete');
+			});
+			
+			writeStream.on('error', (err) => {
+				console.error('Error writing to file:', err);
+			});
+
+			readStream.on('error', (err) => {
+				console.error('Error reading from file:', err);
+			});
+			*/
 		}
 	}
 }
@@ -115,22 +135,6 @@ function fnParseTime(strTime, separator) {
 	dT.setSeconds(seconds);
 	return dT;
 }
-
-/*
-function fnParseTime(strTime) {
-	var hours = parseInt(strTime.substring(0, 2), 10);
-	var minutes = parseInt(strTime.substring(3, 5), 10);
-	var seconds = parseInt(strTime.substring(6, 8), 10);
-	if (strTime.substring(9, 11) == "pm") {
-		hours += (hours < 12) ? 12 : 0;
-	}
-	let d = new Date();
-	d.setHours(hours);
-	d.setMinutes(minutes);
-	d.setSeconds(seconds);
-	return d;
-}
-*/
 
 //https://stackoverflow.com/a/8888498
 function fnFmtAMPM(dt) {
@@ -276,8 +280,26 @@ function fnIsJSON(data) {
 	return true;
 }
 
+function fnGetFoldersListAndFileNameFromFilePath(nameFileWithPath) {
+	let listFolders = false;
+	let nameFile = false;
+	console.log(nameFileWithPath.split('/'));
+	if (nameFileWithPath.split('/').length > 0) {
+		const parts = nameFileWithPath.split('/');
+		if ((parts.at(-1)).split('.').length > 0) {
+			console.log("string contains filename");
+			nameFile = parts.at(-1); 
+			listFolders = parts.slice(0, parts.length-1);
+		} else {
+			listFolders = parts;
+		}
+	}
+	return [listFolders, nameFile];
+}
+
 module.exports = {
 	log,
+	fnGetFoldersListAndFileNameFromFilePath,
 	fnUpdateLogFile,
 	fnIncludePrefixToConsole,
 	fnZeroPad,
