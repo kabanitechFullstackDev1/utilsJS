@@ -1,9 +1,6 @@
+const path = require('path');
+
 const { fnGetFoldersListAndFileNameFromFilePath } = require('./utils')
 
-const parts = fnGetFoldersListAndFileNameFromFilePath('/test/device1/2024-04-25/file.txt')
-console.log(parts[0], parts[1]);
-
-function fnCreateFileWithFoldersInPathIfNotExists(nameFile, pathFile) {
-    [listFolders, nameFileInPathFile] = fnGetFoldersListAndFileNameFromFilePath(pathFile);
-    
-}
+const parts = fnGetFoldersListAndFileNameFromFilePath(path.join(__dirname, 'test/device1/2024-04-25/device.xlsx'));
+console.log(parts.validListFolders, parts.nameFile);

@@ -55,7 +55,7 @@ function fnUpdateLogFile(pathFileLog, strLog, mode) {
 				//log('Saved!');
 			});
 		} else if (mode === "prepend") {
-			
+
 			//https://stackoverflow.com/a/49889780
 			const data = fs.readFileSync(pathFileLog);
 			const fd = fs.openSync(pathFileLog, 'w+');
@@ -283,18 +283,45 @@ function fnIsJSON(data) {
 function fnGetFoldersListAndFileNameFromFilePath(nameFileWithPath) {
 	let listFolders = false;
 	let nameFile = false;
-	console.log(nameFileWithPath.split('/'));
-	if (nameFileWithPath.split('/').length > 0) {
+	if (!fnIsArrayElementsEmpty(nameFileWithPath.split('/'))) {
 		const parts = nameFileWithPath.split('/');
-		if ((parts.at(-1)).split('.').length > 0) {
-			console.log("string contains filename");
-			nameFile = parts.at(-1); 
-			listFolders = parts.slice(0, parts.length-1);
+		const tStr = parts.at(-1);
+		const partsTStr = tStr.split('.');
+		//console.log(partsTStr);
+		if (!fnIsArrayElementsEmpty(partsTStr)) {
+			nameFile = parts.at(-1);
+			listFolders = parts.slice(0, parts.length - 1);
 		} else {
+
 			listFolders = parts;
 		}
 	}
-	return [listFolders, nameFile];
+	return { validListFolders: Array.isArray(listFolders) ? fnSanitizeListFolders(listFolders) : false, nameFile: nameFile };
+}
+
+function fnIsArrayElementsEmpty(array) {
+	let isEmpty = true;
+	array.forEach(element => {
+		if (element.length > 0) {
+			isEmpty = false;
+		}
+	});
+	return isEmpty;
+}
+
+function fnSanitizeListFolders(listFolders) {
+	let validListFolders = [];
+	listFolders.forEach(nameFolder => {
+		// Remove invalid characters
+		nameFolder = nameFolder.replace(/[<>:"/\\|?*]/g, '_');
+
+		// Remove leading and trailing periods
+		nameFolder = nameFolder.replace(/^\.+|\.+$/g, '');
+		if (nameFolder !== "") {
+			validListFolders.push(nameFolder);
+		}
+	});
+	return validListFolders;
 }
 
 module.exports = {
