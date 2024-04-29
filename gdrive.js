@@ -1,6 +1,5 @@
 
 const fs = require('fs');
-const readline = require('readline');
 const path = require('path');
 
 async function fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtGoogleDrive, idRootFolder) {
@@ -17,7 +16,7 @@ async function fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtG
                                     if (list) {
                                         listIdsWithNamesOfFolders.push(
                                             {
-                                                name: listNamesPathFoldersAtGoogleDrive[0],
+                                                name: listFolders[i].name,
                                                 id: listFolders[i].id
                                             },
                                             ...list
@@ -34,15 +33,15 @@ async function fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtG
                         }
                     } else {
                         await createFolder(drive, listNamesPathFoldersAtGoogleDrive[0], idRootFolder).then(
-                            async idFolder => {
-                                if (idFolder) {
-                                    await fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtGoogleDrive.slice(1), idFolder).then(
+                            async infoFolder => {
+                                if (infoFolder) {
+                                    await fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtGoogleDrive.slice(1), infoFolder.id).then(
                                         list => {
                                             if (list) {
                                                 listIdsWithNamesOfFolders.push(
                                                     {
-                                                        name: listNamesPathFoldersAtGoogleDrive[0],
-                                                        id: idFolder
+                                                        name: infoFolder.name,
+                                                        id: infoFolder.id
                                                     },
                                                     ...list
                                                 );
@@ -74,15 +73,15 @@ async function fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtG
                 async listFolders => {
                     if (Array.isArray(listFolders)) {
                         listIdsWithNamesOfFolders.push({
-                            name: listNamesPathFoldersAtGoogleDrive[0],
+                            name: listFolders[0].name,
                             id: listFolders[0].id
                         });
                     } else {
                         await createFolder(drive, listNamesPathFoldersAtGoogleDrive[0], idRootFolder).then(
-                            async idFolder => {
+                            async infoFolder => {
                                 listIdsWithNamesOfFolders.push({
-                                    name: listNamesPathFoldersAtGoogleDrive[0],
-                                    id: idFolder
+                                    name: infoFolder.name,
+                                    id: infoFolder.id
                                 });
                             },
                             err => {
@@ -101,30 +100,7 @@ async function fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtG
     });
 }
 
-function getAccessToken(oAuth2Client, pathToken) {
-    const authUrl = oAuth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: ['https://www.googleapis.com/auth/drive'],
-    });
-    console.log('Authorize this app by visiting this url:', authUrl);
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-    });
-    rl.question('Enter the code from that page here: ', (code) => {
-        rl.close();
-        oAuth2Client.getToken(code, (err, token) => {
-            if (err) return console.error('Error retrieving access token', err);
-            oAuth2Client.setCredentials(token);
-            fs.writeFile(pathToken, JSON.stringify(token), (err) => {
-                if (err) return console.error(err);
-                console.log('Token stored to', TOKEN_PATH);
-            });
-        });
-    });
-}
-
-function listFiles(drive) {
+function fnListFiles(drive) {
     drive.files.list({
         pageSize: 200,
         fields: 'nextPageToken, files(id, name)',
@@ -143,26 +119,52 @@ function listFiles(drive) {
 }
 
 async function fnUploadFileWithReplace(drive, nameFile, pathFile, idParentFolder) {
-    await searchFile(drive, nameFile).then(
-        async infoFiles => {
-            //console.log(infoFiles);
-            if (!infoFiles) {
-                await uploadFile(drive, nameFile, pathFile, idParentFolder).then(
-                    idFile => console.log(idFile),
-                    err => console.error(err)
-                );
-            } else if (Array.isArray(infoFiles)) {
-                for (let i = 0; i < infoFiles.length; i++) {
-                    await deleteFile(drive, infoFiles[i].id);
+    return new Promise(async (resolve, reject) => {
+        await searchFile(drive, nameFile, idParentFolder).then(
+            async infoFiles => {
+                //console.log(infoFiles);
+                if (!infoFiles) {
+                    await uploadFile(drive, nameFile, pathFile, idParentFolder).then(
+                        infoFile => {
+                            //console.log(infoFile);
+                            resolve(infoFile);
+                        },
+                        err => {
+                            console.error(err);
+                            reject(err);
+                        }
+                    );
+                } else if (Array.isArray(infoFiles)) {
+                    for (let i = 0; i < infoFiles.length; i++) {
+                        await deleteFile(drive, infoFiles[i].id).then(
+                            async isDone => {
+                                if (isDone) {
+                                    await uploadFile(drive, nameFile, pathFile, idParentFolder).then(
+                                        infoFile => {
+                                           // console.log(infoFile);
+                                            resolve(infoFile);
+                                        },
+                                        err => {
+                                            console.error(err);
+                                            reject(err);
+                                        }
+                                    );
+                                }
+                            },
+                            err => {
+                                console.error(err);
+                                reject(err);
+                            }
+                        );
+                    }
                 }
-                await uploadFile(drive, nameFile, pathFile, idParentFolder).then(
-                    idFile => console.log(idFile),
-                    err => console.error(err)
-                );
+            },
+            err => {
+                console.error(err);
+                reject(err);
             }
-        },
-        err => console.error(err)
-    );
+        );
+    });
 }
 
 function uploadFile(drive, nameFile, pathFile, idParentFolder) {
@@ -192,6 +194,7 @@ function uploadFile(drive, nameFile, pathFile, idParentFolder) {
                 if (err) {
                     // Handle error
                     console.error(err);
+                    reject(err);
                 } else {
                     //console.log('Upload Successfull, File Id:', file.data.id);
                     resolve(file.data);
@@ -215,6 +218,7 @@ function uploadFile(drive, nameFile, pathFile, idParentFolder) {
             });
         } catch (err) {
             console.error(err);
+            reject(err);
         }
     });
 
@@ -267,7 +271,9 @@ function searchFile(drive, nameFile, idParentFolder) {
                     //console.log('No files found.');
                     resolve(false)
                 } else {
-                    //console.log('Files found: ' + files.length);
+                    files.forEach(file => {
+                        //console.log('Files found: ' + ", ID: " + file.id + ", Name: " + file.name);
+                    });
                     resolve(files);
                 }
             }
@@ -294,8 +300,8 @@ function createFolder(drive, nameFolder, idParentFolder) {
                 reject(err);
             } else {
                 if (file.data.id != "") {
-                    console.log('Folder created, Name: ' + file.data.name + ", ID: " + file.data.id);
-                    resolve(file.data.id);
+                    console.log('Folder created in GDrive, Name: ' + file.data.name + ", ID: " + file.data.id);
+                    resolve(file.data);
                 } else {
                     resolve(false);
                 }
@@ -315,8 +321,10 @@ function deleteFile(drive, idFile) {
                 console.error('Error deleting file:', err);
                 reject(err);
             } else {
-                //console.log('File deleted successfully');
-                resolve(true);
+                if (response.data === "") {
+                    //console.log('File deleted successfully: ' + idFile);
+                    resolve(true);
+                }
             }
         });
     });
@@ -324,5 +332,6 @@ function deleteFile(drive, idFile) {
 
 module.exports = {
     fnCreateDirectoryStructureInGDrive,
-    fnUploadFileWithReplace
+    fnUploadFileWithReplace,
+    fnListFiles
 }
