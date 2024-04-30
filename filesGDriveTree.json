@@ -1,0 +1,328 @@
+{
+  "name": "root",
+  "id": "root",
+  "children": [
+    {
+      "name": "test_kemdes_uploads",
+      "id": "1aXkboIuSCxqgmbMnS8lmztD_Gp-1J2a1",
+      "children": {
+        "name": "root",
+        "id": "1aXkboIuSCxqgmbMnS8lmztD_Gp-1J2a1",
+        "children": [
+          {
+            "name": "device6",
+            "id": "1P8GCFeHdolcFAUqAM-3ZDA8_PY3UZzM2",
+            "children": {
+              "name": "root",
+              "id": "1P8GCFeHdolcFAUqAM-3ZDA8_PY3UZzM2",
+              "children": [
+                {
+                  "name": "29-04-2024",
+                  "id": "1lkwO2jrSsWx7ciog_btewT5Ydummr2BK",
+                  "children": {
+                    "name": "root",
+                    "id": "1lkwO2jrSsWx7ciog_btewT5Ydummr2BK",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "19UhDWkFx9TtMgm0QTQyLHdXi8hDtTejB"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "device5",
+            "id": "1SIXiHmPz6E-DK-Gh-3w736wNGoMI26se",
+            "children": {
+              "name": "root",
+              "id": "1SIXiHmPz6E-DK-Gh-3w736wNGoMI26se",
+              "children": [
+                {
+                  "name": "29-04-2024",
+                  "id": "1wRbNXtNHhHGJinseg-KO2e1EL042rS3N",
+                  "children": {
+                    "name": "root",
+                    "id": "1wRbNXtNHhHGJinseg-KO2e1EL042rS3N",
+                    "children": [
+                      {
+                        "name": "device5_29-04-2024.xlsx",
+                        "id": "1TBiB2vTXXRRLxidHBi73TO4L5rDLxD9H"
+                      },
+                      {
+                        "name": "Screenshot from 2023-12-09 11-25-24.png",
+                        "id": "1O2CnjAX93iMwqvbhQrmrimNOGFze3eYc"
+                      },
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1bybdUMfLrabpNHvJxiWUwqFcPNkRHWfd"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "device4",
+            "id": "1LJYcM6AtandJkwEpNnU5zdTSLNzi_Vif",
+            "children": {
+              "name": "root",
+              "id": "1LJYcM6AtandJkwEpNnU5zdTSLNzi_Vif",
+              "children": [
+                {
+                  "name": "18-04-2024",
+                  "id": "1YdPkGAouPIANBU2oqgxCd58S1ARoqSu9",
+                  "children": {
+                    "name": "root",
+                    "id": "1YdPkGAouPIANBU2oqgxCd58S1ARoqSu9",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1AvTzzLq7ceUUtSh_GKefhjYKpsroJAdN"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "29-04-2024",
+                  "id": "1TUvop5RvA3BiFWUARW_WxVGaN5q7OvT4",
+                  "children": {
+                    "name": "root",
+                    "id": "1TUvop5RvA3BiFWUARW_WxVGaN5q7OvT4",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1FffrO_pd37gsTrORDFpC2gXMwBCK4NMn"
+                      },
+                      {
+                        "name": "device4_29-04-2024.zip",
+                        "id": "1wj7SN0gMK3w9QFFesUSPU_BXvP_ohGF6"
+                      },
+                      {
+                        "name": "device4_29-04-2024.xlsx",
+                        "id": "1p0GA0aJa7yzN44hq6IuYY210iTigLJYx"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "device3",
+            "id": "1Y5xMLmsjDtBdulH3vMAzUt4vSuDCs1Hg",
+            "children": {
+              "name": "root",
+              "id": "1Y5xMLmsjDtBdulH3vMAzUt4vSuDCs1Hg",
+              "children": [
+                {
+                  "name": "22-04-2024",
+                  "id": "1heD2k75vHUfgbhpgyxhrYLj2AO3fNKCj",
+                  "children": {
+                    "name": "root",
+                    "id": "1heD2k75vHUfgbhpgyxhrYLj2AO3fNKCj",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1lgkHaePMVPHnggDud80of6Z6aUUrusET"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "08-04-2024",
+                  "id": "1VYICPsm2G81-_m45xrIeQocqDMjFlnUp",
+                  "children": {
+                    "name": "root",
+                    "id": "1VYICPsm2G81-_m45xrIeQocqDMjFlnUp",
+                    "children": [
+                      {
+                        "name": "testImageFileZip.jpeg",
+                        "id": "1kkbBoOJ-1w34AnDwQ1wmg_5DM04k4Tyj"
+                      },
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1Ye5ckeL7ZQvFC1WqspVD8pjZxKn-H9fX"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "19-04-2024",
+                  "id": "1osVM2eeuzwviOMrNDOkKbfOg7QrdaEfI",
+                  "children": {
+                    "name": "root",
+                    "id": "1osVM2eeuzwviOMrNDOkKbfOg7QrdaEfI",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1iRiTfI0gI8_5NXzdiVETDRo_8ANRpOFm"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "24-04-2024",
+                  "id": "177jE--SbxA6wIzvp6leEddZxavJuKAFi",
+                  "children": {
+                    "name": "root",
+                    "id": "177jE--SbxA6wIzvp6leEddZxavJuKAFi",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1LTQiQivU9CgvfydIWMXJLfz0Bql28klJ"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "2024-04-12",
+                  "id": "1l0w35Nm2LnjdiwLyRJTmirY5TRnx-Tml",
+                  "children": {
+                    "name": "root",
+                    "id": "1l0w35Nm2LnjdiwLyRJTmirY5TRnx-Tml",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1bsDoZMlWIxh9t82lwkOWDXPj7K7r_j6Y"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "29-04-2024",
+                  "id": "17WZXcSWSZt7_I-tpABH4bB6K1SDy49xm",
+                  "children": {
+                    "name": "root",
+                    "id": "17WZXcSWSZt7_I-tpABH4bB6K1SDy49xm",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1ndhf-J5umDfzbS-ewkMuVcNDDLBAHQ9T"
+                      },
+                      {
+                        "name": "device3_29-04-2024.xlsx",
+                        "id": "1wQ6SdNorFtP5KyoZ-zR3mxFN6FZNjCnS"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "device2",
+            "id": "1ZACwO-iJDnmEJeeJH9J-1gN6Q4GF0FaC",
+            "children": {
+              "name": "root",
+              "id": "1ZACwO-iJDnmEJeeJH9J-1gN6Q4GF0FaC",
+              "children": [
+                {
+                  "name": "12-04-2024",
+                  "id": "10Odlr85L9rXPUvvzGVgw7AHCcWkpFoq9",
+                  "children": {
+                    "name": "root",
+                    "id": "10Odlr85L9rXPUvvzGVgw7AHCcWkpFoq9",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1oiAVHo1ZTTVlSY0fBss4UFSJSFb5azGF"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "2024-04-29",
+                  "id": "1MxV19E-xRJ_2MfjF0S26avW-j6Daq_1t",
+                  "children": {
+                    "name": "root",
+                    "id": "1MxV19E-xRJ_2MfjF0S26avW-j6Daq_1t",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1ZWM1unGyfBvOw8wvL_O41Jrdyk-C3Wgk"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "29-04-2024",
+                  "id": "1quOHKoKhoO_AfjLTT_uNJOLh7q96PlUw",
+                  "children": {
+                    "name": "root",
+                    "id": "1quOHKoKhoO_AfjLTT_uNJOLh7q96PlUw",
+                    "children": [
+                      {
+                        "name": "b473aaa3-9432-4ea9-b784-5d51590bbebe.jpeg",
+                        "id": "1Z9IQO-CW1j0pJMut0rmF4T8UzQY4P2CV"
+                      },
+                      {
+                        "name": "device2_29-04-2024.xlsx",
+                        "id": "1ilSyA6yHll5Sj2GaCwU5nGK9aahJEeQf"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "name": "device1",
+            "id": "1YR4R-cGKHZlVH0y6rx3_G25q46BqKzPW",
+            "children": {
+              "name": "root",
+              "id": "1YR4R-cGKHZlVH0y6rx3_G25q46BqKzPW",
+              "children": [
+                {
+                  "name": "28-04-2024",
+                  "id": "1LpIPd2j8gx_b2HIFg1oQJOKLKHEobp9c",
+                  "children": {
+                    "name": "root",
+                    "id": "1LpIPd2j8gx_b2HIFg1oQJOKLKHEobp9c",
+                    "children": [
+                      {
+                        "name": "device1_28-04-2024.xlsx",
+                        "id": "1Q-JadfzPoVmPY1PNtOzmu1rOHKIzhMs7"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "27-04-2024",
+                  "id": "1REj_lpWPA9alBwahuEnTKx6PbE3UvvCu",
+                  "children": {
+                    "name": "root",
+                    "id": "1REj_lpWPA9alBwahuEnTKx6PbE3UvvCu",
+                    "children": [
+                      {
+                        "name": "device1_27-04-2024.xlsx",
+                        "id": "1koO_75efikHheE3CASz7PD-I8OOT1Qkl"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "name": "29-04-2024",
+                  "id": "1V5HNjtsMK4YrvbHIduGpbR8oM1UKfAzu",
+                  "children": {
+                    "name": "root",
+                    "id": "1V5HNjtsMK4YrvbHIduGpbR8oM1UKfAzu",
+                    "children": [
+                      {
+                        "name": "device1_29-04-2024.xlsx",
+                        "id": "11QdMwrXrsXJCuj6uDltOHWqPqO360QaC"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

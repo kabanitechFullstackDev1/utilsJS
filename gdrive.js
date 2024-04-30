@@ -118,6 +118,90 @@ function fnListFiles(drive) {
     });
 }
 
+// List files in Google Drive with parent's name and ID
+async function fnListFilesWithParents(drive) {
+    //const drive = google.drive({ version: DRIVE_API_VERSION, auth: jwtClient });
+    try {
+        const response = await drive.files.list({
+            pageSize: 1000,
+            fields: 'files(id, name, parents)',
+        });
+        console.log('Files:');
+        response.data.files.forEach(async file => {
+            const parents = file.parents || [];
+            for (const parent of parents) {
+                const parentInfo = await drive.files.get({
+                    fileId: parent,
+                    fields: 'id, name',
+                });
+                console.log(`File: ${file.name} (${file.id}) - Parent: ${parentInfo.data.name} (${parentInfo.data.id})`);
+            }
+        });
+    } catch (error) {
+        console.error('Error listing files:', error);
+    }
+}
+
+async function fnListFilesTree(drive, parentId = 'root', indent = 0) {
+    //const drive = google.drive({ version: DRIVE_API_VERSION, auth: jwtClient });
+    try {
+        // Fetch files and folders in the current parent folder
+        const response = await drive.files.list({
+            q: `'${parentId}' in parents and trashed=false`,
+            fields: 'files(id, name, mimeType)',
+        });
+
+        // Process each file/folder
+        for (const item of response.data.files) {
+            // Indent according to folder depth
+            const indentation = ' '.repeat(indent * 4);
+
+            // Print file/folder name
+            console.log(`${indentation}${item.name}`);
+
+            // If it's a folder, recursively list its contents
+            if (item.mimeType === 'application/vnd.google-apps.folder') {
+                await fnListFilesTree(drive, item.id, indent + 1);
+            }
+        }
+    } catch (error) {
+        console.error('Error listing files:', error);
+    }
+}
+
+async function fnListFilesTreeToJSON(drive, parentId = 'root') {
+    //const drive = google.drive({ version: DRIVE_API_VERSION, auth: jwtClient });
+    try {
+        // Initialize tree object
+        const tree = { name: 'root', id: parentId, children: [] };
+
+        // Fetch files and folders in the current parent folder
+        const response = await drive.files.list({
+            q: `'${parentId}' in parents and trashed=false`,
+            fields: 'files(id, name, mimeType)',
+        });
+
+        // Process each file/folder
+        for (const item of response.data.files) {
+            // Create node object
+            const node = { name: item.name, id: item.id };
+
+            // If it's a folder, recursively list its contents
+            if (item.mimeType === 'application/vnd.google-apps.folder') {
+                node.children = await fnListFilesTreeToJSON(drive, item.id);
+            }
+
+            // Add node to the tree
+            tree.children.push(node);
+        }
+
+        return tree;
+    } catch (error) {
+        console.error('Error listing files:', error);
+        return null;
+    }
+}
+
 async function fnUploadFileWithReplace(drive, nameFile, pathFile, idParentFolder) {
     return new Promise(async (resolve, reject) => {
         await searchFile(drive, nameFile, idParentFolder).then(
@@ -141,7 +225,7 @@ async function fnUploadFileWithReplace(drive, nameFile, pathFile, idParentFolder
                                 if (isDone) {
                                     await uploadFile(drive, nameFile, pathFile, idParentFolder).then(
                                         infoFile => {
-                                           // console.log(infoFile);
+                                            // console.log(infoFile);
                                             resolve(infoFile);
                                         },
                                         err => {
@@ -252,12 +336,12 @@ async function searchFolder(drive, nameFolder, idParentFolder) {
     });
 }
 
-function searchFile(drive, nameFile, idParentFolder) {
-    return new Promise((resolve, reject) => {
+async function searchFile(drive, nameFile, idParentFolder) {
+    return new Promise(async (resolve, reject) => {
         // Define the search query
         const query = `name='${nameFile}' ${idParentFolder === undefined ? '' : `and '${idParentFolder}' in parents`}`;
         // Search for files
-        drive.files.list({
+        await drive.files.list({
             q: query,
             fields: 'files(id, name)',
             spaces: 'drive',
@@ -271,9 +355,11 @@ function searchFile(drive, nameFile, idParentFolder) {
                     //console.log('No files found.');
                     resolve(false)
                 } else {
+                    /*
                     files.forEach(file => {
                         //console.log('Files found: ' + ", ID: " + file.id + ", Name: " + file.name);
                     });
+                    */
                     resolve(files);
                 }
             }
@@ -330,8 +416,38 @@ function deleteFile(drive, idFile) {
     });
 }
 
+// Retrieve the storage quota information
+async function getStorageQuota(drive) {
+    //const drive = google.drive({ version: DRIVE_API_VERSION, auth: jwtClient });
+    try {
+        const response = await drive.about.get({
+            fields: 'storageQuota',
+        });
+        const storageQuota = response.data.storageQuota;
+        console.log('Storage Quota Information:');
+        console.log(`- Total Storage: ${formatBytes(storageQuota.limit)}`);
+        console.log(`- Used Storage: ${formatBytes(storageQuota.usage)}`);
+        console.log(`- Remaining Storage: ${formatBytes(storageQuota.limit - storageQuota.usage)}`);
+    } catch (error) {
+        console.error('Error retrieving storage quota:', error);
+    }
+}
+
+// Helper function to format bytes into human-readable format
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
 module.exports = {
     fnCreateDirectoryStructureInGDrive,
     fnUploadFileWithReplace,
-    fnListFiles
+    fnListFiles,
+    fnListFilesWithParents,
+    fnListFilesTree,
+    fnListFilesTreeToJSON,
+    getStorageQuota
 }

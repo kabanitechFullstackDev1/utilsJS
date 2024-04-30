@@ -4,10 +4,14 @@ const { google } = require('googleapis');
 const {
 	fnCreateDirectoryStructureInGDrive,
 	fnUploadFileWithReplace,
-	fnListFiles
+	fnListFiles,
+	fnListFilesWithParents,
+	fnListFilesTree,
+	fnListFilesTreeToJSON,
+	getStorageQuota
 } = require('./gdrive');
 
-const nameClient = "athulenergy";
+const nameClient = "fullstackdev1";
 const pathCredentials = path.join(__dirname, 'gdrive', 'credentials', nameClient);
 
 const credentialsGDrive = {
@@ -41,8 +45,19 @@ const pathGDrive = path.join(rootFolderGDrive, pathFileRelative);
 
 const drive = google.drive({ version: 'v3', auth: authGDrive });
 //fnListFiles(drive);
+//fnListFilesWithParents(drive);
+//fnListFilesTree(drive);
+getStorageQuota(drive);
+/*
+fnListFilesTreeToJSON(drive).then(tree => {
+	const nameFile = 'filesGDriveTree.json'
+	// Convert tree object to JSON and save to file
+	fs.writeFileSync(`./${nameFile}`, JSON.stringify(tree, null, 2));
+	console.log(`Tree structure saved to ${nameFile}`);
+});
+*/
 //fnShare(drive, '1aXkboIuSCxqgmbMnS8lmztD_Gp-1J2a1', 'fullstackdev1.kabanitech@gmail.com');
-fnShare(drive, '1k0g12mVRdh9GCgg-ewCv6CmUeD9Xr3t4', 'sem.athul.kabani@gmail.com');
+//fnShare(drive, '1k0g12mVRdh9GCgg-ewCv6CmUeD9Xr3t4', 'sem.athul.kabani@gmail.com');
 //fnSaveToDrive(nameFile, pathFileAbsolute, pathGDrive).then(infoFile => console.log(infoFile), err => console.error(err));
 
 function fnCopy() {
