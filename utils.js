@@ -11,7 +11,7 @@ function fnIncludePrefixToConsole(dirname) {
 	//Reference: https://stackoverflow.com/a/47296370/23289934
 	['debug', 'log', 'warn', 'error'].forEach((methodName) => {
 		const originalLoggingMethod = console[methodName];
-		console[methodName] = (firstArgument, ...otherArguments) => {
+		console[methodName] = async (firstArgument, ...otherArguments) => {
 			const originalPrepareStackTrace = Error.prepareStackTrace;
 			Error.prepareStackTrace = (_, stack) => stack;
 			const callee = new Error().stack[1];
@@ -31,7 +31,7 @@ function fnIncludePrefixToConsole(dirname) {
 			otherArguments.forEach(args => {
 				strOtherArgs += ", " + JSON.stringify(args);
 			});
-			fnUpdateLogFile(path.join(dirname, strNameFileLog), prefix + ' ' + strOtherArgs, "append");
+			await fnUpdateLogFile(path.join(dirname, strNameFileLog), prefix + ' ' + strOtherArgs, "append");
 			if (typeof firstArgument === 'string') {
 				originalLoggingMethod(prefix + ' ' + firstArgument, ...otherArguments);
 			} else {
@@ -41,7 +41,7 @@ function fnIncludePrefixToConsole(dirname) {
 	});
 }
 
-function fnUpdateLogFile(pathFileLog, strLog, mode) {
+async function fnUpdateLogFile(pathFileLog, strLog, mode) {
 	if (!fs.existsSync(pathFileLog)) {
 		fs.writeFile(pathFileLog, strLog + "\n", { flag: 'wx' }, function (err) {
 			if (err) throw err;
@@ -200,7 +200,7 @@ function fnIsDateValid(strDate) {
 function fnIsToday(dt) {
 	let dtToday = new Date(new Date().toLocaleString('en', { timeZone: 'Asia/Kolkata' }));
 	if ((dt.getDate() === dtToday.getDate()) && (dt.getMonth() === dtToday.getMonth() && (dt.getFullYear() === dtToday.getFullYear()))) {
-		log("Date " + fnFmtDate(dt, "YYYYMMDD", "-") + " is Today's")
+		//log("Date " + fnFmtDate(dt, "YYYYMMDD", "-") + " is Today's")
 		return true;
 	}
 	//log("Date " + fnFmtDate(dt, "YYYYMMDD", "-") + " is not Today's")
