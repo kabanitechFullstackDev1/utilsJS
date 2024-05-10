@@ -47,7 +47,8 @@ const drive = google.drive({ version: 'v3', auth: authGDrive });
 //fnListFiles(drive);
 //fnListFilesWithParents(drive);
 //fnListFilesTree(drive);
-getStorageQuota(drive);
+//getStorageQuota(drive);
+fnCreateDirectoryStructureInGDrive(drive, pathGDrive.split('/'), 'root').then(list => console.log(JSON.stringify(list)));
 /*
 fnListFilesTreeToJSON(drive).then(tree => {
 	const nameFile = 'filesGDriveTree.json'

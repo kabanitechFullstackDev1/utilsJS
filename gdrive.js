@@ -21,8 +21,6 @@ async function fnCreateDirectoryStructureInGDrive(drive, listNamesPathFoldersAtG
                                             },
                                             ...list
                                         );
-                                    } else {
-
                                     }
                                 },
                                 err => {

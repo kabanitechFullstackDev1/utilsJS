@@ -43,7 +43,7 @@ function fnIncludePrefixToConsole(dirname) {
 
 function fnUpdateLogFile(pathFileLog, strLog, mode) {
 	if (!fs.existsSync(pathFileLog)) {
-		fs.writeFile(pathFileLog, strLog, { flag: 'wx' }, function (err) {
+		fs.writeFile(pathFileLog, strLog + "\n", { flag: 'wx' }, function (err) {
 			if (err) throw err;
 			//log(`Log File: ${pathFileLog}`);
 			return;
