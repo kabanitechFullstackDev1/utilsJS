@@ -121,19 +121,24 @@ function fnDateTimeStampString() {
 }
 
 function fnParseTime(strTime, separator) {
-	let hours = parseInt(strTime.split(separator)[0]);
-	const minutes = parseInt(strTime.split(separator)[1]);
-	const seconds = parseInt(strTime.split(separator)[2].substring(0, 2));
-	if (strTime.substring(strTime.length - 2, strTime.length) === "am") {
-		hours = (hours == 12) ? 0 : hours;
-	} else {
-		hours += (hours < 12) ? 12 : 0;
+	try {
+		const strTimeParts = strTime.split(separator);
+		let hours = parseInt(strTimeParts[0]);
+		const minutes = parseInt(strTimeParts[1]);
+		const seconds = parseInt(strTimeParts[2].substring(0, 2));
+		if (strTime.substring(strTime.length - 2, strTime.length) === "am") {
+			hours = (hours == 12) ? 0 : hours;
+		} else {
+			hours += (hours < 12) ? 12 : 0;
+		}
+		const dT = new Date();
+		dT.setHours(hours);
+		dT.setMinutes(minutes);
+		dT.setSeconds(seconds);
+		return dT;
+	} catch (err) {
+		console.log(err.message, strTime);
 	}
-	const dT = new Date();
-	dT.setHours(hours);
-	dT.setMinutes(minutes);
-	dT.setSeconds(seconds);
-	return dT;
 }
 
 //https://stackoverflow.com/a/8888498
@@ -259,7 +264,7 @@ async function fnWriteJSONFile(nameFileWithPath, dataJSON) {
 			fs.writeFileSync(nameFileWithPath, data);
 			if (fs.existsSync(nameFileWithPath)) {
 				//log(`${data} saved as ${nameFileWithPath}`);
-				fnSuccess(dataJSON);
+				fnSuccess(nameFileWithPath);
 			} else {
 				log(`File not found!!! ${nameFileWithPath}`);
 				fnFailure();
