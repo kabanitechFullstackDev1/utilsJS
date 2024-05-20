@@ -176,17 +176,18 @@ function fnFmtDate(dt, format, separator, isZeroPadding) {
 
 function fnParseDate(strDate, format, separator) {
 	var year, month, day;
+	const strDateParts = strDate.split(separator);
 	//log(`${strDate}, ${format}, ${separator}`);
 	switch (format) {
 		case "DDMMYYYY":
-			day = parseInt(strDate.split(separator)[0]);
-			month = parseInt(strDate.split(separator)[1]) - 1;
-			year = parseInt(strDate.split(separator)[2]);
+			day = parseInt(strDateParts[0]);
+			month = parseInt(strDateParts[1]) - 1;
+			year = parseInt(strDateParts[2]);
 			break;
 		case "YYYYMMDD":
-			year = parseInt(strDate.split(separator)[0]);
-			month = parseInt(strDate.split(separator)[1]) - 1;
-			day = parseInt(strDate.split(separator)[2]);
+			year = parseInt(strDateParts[0]);
+			month = parseInt(strDateParts[1]) - 1;
+			day = parseInt(strDateParts[2]);
 			break;
 	};
 	const dt = new Date();
@@ -329,6 +330,14 @@ function fnSanitizeListFolders(listFolders) {
 	return validListFolders;
 }
 
+//https://stackoverflow.com/a/52869830/23289934
+function fnIsStrDateISO(str) {
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
+    const d = new Date(str);
+    return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === str; // valid date 
+}
+
+
 module.exports = {
 	log,
 	fnGetFoldersListAndFileNameFromFilePath,
@@ -337,6 +346,7 @@ module.exports = {
 	fnZeroPad,
 	fnTsStr,
 	fnDateTimeStampString,
+	fnIsStrDateISO,
 	fnParseTime,
 	fnFmtAMPM,
 	fnParseDate,
