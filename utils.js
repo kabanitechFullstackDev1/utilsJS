@@ -330,11 +330,25 @@ function fnSanitizeListFolders(listFolders) {
 	return validListFolders;
 }
 
-//https://stackoverflow.com/a/52869830/23289934
-function fnIsStrDateISO(str) {
-    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(str)) return false;
-    const d = new Date(str);
-    return d instanceof Date && !isNaN(d.getTime()) && d.toISOString() === str; // valid date 
+function fnIsValidISODateTime(isoString) {
+    // Regular expression to validate ISO 8601 date-time format
+    const isoRegex = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[\+\-]\d{2}:\d{2}))$/;
+
+    // Check if the string matches the ISO 8601 format
+    if (!isoRegex.test(isoString)) {
+        return false;
+    }
+
+    // Parse the date string using the Date constructor
+    const date = new Date(isoString);
+
+    // Check if the parsed date is valid
+    if (isNaN(date.getTime())) {
+        return false;
+    }
+
+    // Ensure the string produces the same date string in ISO format
+    return date.toISOString() === isoString;
 }
 
 
@@ -346,7 +360,7 @@ module.exports = {
 	fnZeroPad,
 	fnTsStr,
 	fnDateTimeStampString,
-	fnIsStrDateISO,
+	fnIsValidISODateTime,
 	fnParseTime,
 	fnFmtAMPM,
 	fnParseDate,
