@@ -122,6 +122,13 @@ function fnDateTimeStampString() {
 
 function fnParseTime(strTime, separator) {
 	try {
+		if (strTime.length > 11) {
+			const strTSUTC = strTime;
+			const strTSIST = strTSUTC.slice(0, strTSUTC.length - 1) + "-05:30";
+			//console.log(strTSIST);
+			const dt = new Date(strTSUTC);
+			return dt;
+		}
 		const strTimeParts = strTime.split(separator);
 		let hours = parseInt(strTimeParts[0]);
 		const minutes = parseInt(strTimeParts[1]);
