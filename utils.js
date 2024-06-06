@@ -124,28 +124,51 @@ function fnDateTimeStampString() {
 	}
 }
 
-function fnParseTime(strTime, separator) {
+function fnIsValidDateTimeStamp(timestamp) {
+	if ((timestamp instanceof string) && timestamp.length > 11) {
+		//const strTSIST = strTSUTC.slice(0, strTSUTC.length - 1) + "-05:30";
+		//console.log(strTSIST);
+		const dt = new Date(strTSUTC);
+		return dt;
+	} else if (timestamp instanceof number) {
+		const dt = new Date(timestamp);
+		return dt;
+	} else {
+		strTime = timestamp;
+	}
+}
+
+function fnParseTime(timestamp, separator) {
+	let strTime = "";
+	//console.log(timestamp);
 	try {
-		if (strTime.length > 11) {
-			const strTSUTC = strTime;
-			const strTSIST = strTSUTC.slice(0, strTSUTC.length - 1) + "-05:30";
+		if ((typeof (timestamp) === "string") && timestamp.length > 11) {
+			//const strTSIST = strTSUTC.slice(0, strTSUTC.length - 1) + "-05:30";
 			//console.log(strTSIST);
 			const dt = new Date(strTSUTC);
 			return dt;
+		} else if (!isNaN(timestamp)) {
+			const dt = new Date(timestamp);
+			return dt;
+		} else if ((typeof (timestamp) === "string")) {
+			strTime = timestamp;
 		}
 		const strTimeParts = strTime.split(separator);
 		let hours = parseInt(strTimeParts[0]);
 		const minutes = parseInt(strTimeParts[1]);
 		const seconds = parseInt(strTimeParts[2].substring(0, 2));
+		/*
 		if (strTime.substring(strTime.length - 2, strTime.length) === "am") {
 			hours = (hours == 12) ? 0 : hours;
 		} else {
 			hours += (hours < 12) ? 12 : 0;
 		}
+		*/
 		const dT = new Date();
 		dT.setHours(hours);
 		dT.setMinutes(minutes);
 		dT.setSeconds(seconds);
+		dT.setMilliseconds(0);
 		return dT;
 	} catch (err) {
 		console.log(err.message, strTime);
@@ -209,6 +232,7 @@ function fnParseDate(strDate, format, separator) {
 
 function fnIsDateValid(strDate) {
 	if (isNaN(new Date(strDate))) {
+		console.log(`Invalid Date: '${strDate}`)
 		return false;
 	}
 	return true;
@@ -362,6 +386,54 @@ function fnIsValidISODateTime(isoString) {
 	return date.toISOString() === isoString;
 }
 
+function fnConvertFloatMinutesToTimeString(floatMinutes) {
+	// Ensure the input is a valid number
+	if (isNaN(floatMinutes)) {
+		throw new Error("Input must be a valid number");
+	}
+
+	// Extract the integer part for minutes
+	let minutes = Math.floor(floatMinutes);
+
+	// Extract the fractional part and convert to seconds
+	let seconds = Math.round((floatMinutes - minutes) * 60);
+
+	// Adjust for rounding issues that push seconds to 60
+	if (seconds === 60) {
+		seconds = 0;
+		minutes += 1;
+	}
+
+	// Zero padding the values
+	//const paddedMinutes = String(minutes).padStart(2, '0');
+	//const paddedSeconds = String(seconds).padStart(2, '0');
+
+	// Construct the final string
+	const strTimeString = `${minutes > 0 ? minutes === 1 ? minutes + " minute " : minutes + " minutes " : ""}${seconds > 0 ? seconds === 1 ? seconds + " second " : seconds + " seconds " : ""}`;
+	return strTimeString;
+}
+
+function fnFloatToPaddedString(floatValue, integerLength = 2, fractionLength = 2) {
+    // Ensure the input is a valid number
+    if (isNaN(floatValue)) {
+        throw new Error("Input must be a valid number");
+    }
+
+    // Separate the integer and fractional parts
+    const integerPart = Math.floor(floatValue);
+    const fractionalPart = floatValue - integerPart;
+
+    // Convert integer part to a zero-padded string
+    const paddedIntegerPart = String(integerPart).padStart(integerLength, '0');
+
+    // Convert fractional part to a zero-padded string
+    // Using toFixed to ensure correct number of decimal places, then slice to remove "0."
+    const paddedFractionalPart = String(fractionalPart.toFixed(fractionLength)).slice(2);
+
+    // Construct the final padded string
+    return `${paddedIntegerPart}.${paddedFractionalPart}`;
+}
+
 
 module.exports = {
 	log,
@@ -374,6 +446,7 @@ module.exports = {
 	fnIsValidISODateTime,
 	fnParseTime,
 	fnFmtAMPM,
+	fnConvertFloatMinutesToTimeString,
 	fnParseDate,
 	fnIsDateValid,
 	fnIsToday,
