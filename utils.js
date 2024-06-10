@@ -306,7 +306,7 @@ async function fnWriteJSONFile(nameFileWithPath, dataJSON) {
 				fnFailure();
 			}
 		} catch (e) {
-			log(e.toString());
+			log(e.message);
 			fnFailure();
 		}
 	})
