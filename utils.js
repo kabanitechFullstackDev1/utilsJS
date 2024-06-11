@@ -282,13 +282,18 @@ function fnGetDateStringsListBetweenTwoDateStrings(strDateFrom, strDateTo, forma
 async function fnReadJSONFile(nameFileWithPath) {
 	return new Promise((fnSuccess, fnFailure) => {
 		try {
-			let rawdata = fs.readFileSync(nameFileWithPath);
-			let dataJSON = JSON.parse(rawdata);
-			//log(`${nameFileWithPath} loaded as ${rawdata}`);
-			fnSuccess(dataJSON);
+			if (fs.existsSync(nameFileWithPath)) {
+				let rawdata = fs.readFileSync(nameFileWithPath);
+				let dataJSON = JSON.parse(rawdata);
+				//log(`${nameFileWithPath} loaded as ${rawdata}`);
+				fnSuccess(dataJSON);
+			} else {
+				log(`${nameFileWithPath} not found!`);
+				fnSuccess(false);
+			}
 		} catch (e) {
-			log(e.toString());
-			fnFailure();
+			console.error(e);
+			fnFailure(e);
 		}
 	});
 }
@@ -303,11 +308,11 @@ async function fnWriteJSONFile(nameFileWithPath, dataJSON) {
 				fnSuccess(nameFileWithPath);
 			} else {
 				log(`File not found!!! ${nameFileWithPath}`);
-				fnFailure();
+				fnFailure(new Error(`File not found!!! ${nameFileWithPath}`));
 			}
 		} catch (e) {
-			log(e.message);
-			fnFailure();
+			console.error(e);
+			fnFailure(e);
 		}
 	})
 }
