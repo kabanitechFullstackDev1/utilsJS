@@ -439,6 +439,11 @@ function fnFloatToPaddedString(floatValue, integerLength = 2, fractionLength = 2
     return `${paddedIntegerPart}.${paddedFractionalPart}`;
 }
 
+function fnFmtFloatWithZeroPad(numFloat, nDecimalDigits, nTotalDigits) {
+    let formattedNumber = numFloat.toFixed(nDecimalDigits);  // Ensures single digit precision
+    return formattedNumber.padStart(nTotalDigits, '0');  // Pads with zeros to ensure at least nTotalDigits characters (including the decimal point)
+}
+
 
 module.exports = {
 	log,
@@ -460,5 +465,6 @@ module.exports = {
 	fnFmtDate,
 	fnGetDateStringsListBetweenTwoDateStrings,
 	fnReadJSONFile,
-	fnWriteJSONFile
+	fnWriteJSONFile,
+	fnFmtFloatWithZeroPad
 }

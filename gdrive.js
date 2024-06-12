@@ -207,9 +207,9 @@ async function fnUploadFileWithReplace(drive, nameFile, pathFile, idParentFolder
                 //console.log(infoFiles);
                 if (!infoFiles) {
                     await uploadFile(drive, nameFile, pathFile, idParentFolder).then(
-                        infoFile => {
+                        infoFileGDrive => {
                             //console.log(infoFile);
-                            resolve(infoFile);
+                            resolve(infoFileGDrive);
                         },
                         err => {
                             console.error(err);
@@ -447,5 +447,8 @@ module.exports = {
     fnListFilesWithParents,
     fnListFilesTree,
     fnListFilesTreeToJSON,
-    getStorageQuota
+    getStorageQuota,
+    searchFolder,
+    searchFile,
+    deleteFile
 }

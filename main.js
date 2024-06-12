@@ -8,7 +8,9 @@ const {
 	fnListFilesWithParents,
 	fnListFilesTree,
 	fnListFilesTreeToJSON,
-	getStorageQuota
+	getStorageQuota,
+	searchFile,
+	deleteFile
 } = require('./gdrive');
 
 const nameClient = "fullstackdev1";
@@ -41,14 +43,17 @@ const nameFile = 'device1_29-04-2024.xlsx';
 const nameDirStatic = 'data';
 const pathFileRelative = path.join('device1', '29-04-2024');
 const pathFileAbsolute = path.join(nameDirStatic, pathFileRelative);
-const pathGDrive = path.join(rootFolderGDrive, pathFileRelative);
+const pathGDrive = path.join(rootFolderGDrive);
 
 const drive = google.drive({ version: 'v3', auth: authGDrive });
+//searchFile(drive, "test_kemdes_uploads", "root");
+//deleteFile(drive, "1aXkboIuSCxqgmbMnS8lmztD_Gp-1J2a1");
 //fnListFiles(drive);
 //fnListFilesWithParents(drive);
 //fnListFilesTree(drive);
 //getStorageQuota(drive);
-fnCreateDirectoryStructureInGDrive(drive, pathGDrive.split('/'), 'root').then(list => console.log(JSON.stringify(list)));
+console.log(pathGDrive.split('/'));
+//fnCreateDirectoryStructureInGDrive(drive, pathGDrive.split('/'), 'root').then(list => console.log(JSON.stringify(list)));
 /*
 fnListFilesTreeToJSON(drive).then(tree => {
 	const nameFile = 'filesGDriveTree.json'
@@ -57,7 +62,7 @@ fnListFilesTreeToJSON(drive).then(tree => {
 	console.log(`Tree structure saved to ${nameFile}`);
 });
 */
-//fnShare(drive, '1aXkboIuSCxqgmbMnS8lmztD_Gp-1J2a1', 'fullstackdev1.kabanitech@gmail.com');
+//fnShare(drive, '1JyyqwkD9EVeFe2A_88agEZBgCjh6QPZd', 'fullstackdev1.kabanitech@gmail.com');
 //fnShare(drive, '1k0g12mVRdh9GCgg-ewCv6CmUeD9Xr3t4', 'sem.athul.kabani@gmail.com');
 //fnSaveToDrive(nameFile, pathFileAbsolute, pathGDrive).then(infoFile => console.log(infoFile), err => console.error(err));
 
