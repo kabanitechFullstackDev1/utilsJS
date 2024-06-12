@@ -46,13 +46,19 @@ const pathFileAbsolute = path.join(nameDirStatic, pathFileRelative);
 const pathGDrive = path.join(rootFolderGDrive);
 
 const drive = google.drive({ version: 'v3', auth: authGDrive });
-//searchFile(drive, "test_kemdes_uploads", "root");
-//deleteFile(drive, "1aXkboIuSCxqgmbMnS8lmztD_Gp-1J2a1");
+/*
+searchFile(drive, "test_kemdes_uploads", "root").then(
+	(infoFileGDrive) => {
+		console.log(infoFileGDrive);
+	}
+);
+*/
+//deleteFile(drive, "1FjCypPoqHJzbgbF9VAiEYPnx2KU8BzOt");
 //fnListFiles(drive);
 //fnListFilesWithParents(drive);
 //fnListFilesTree(drive);
 //getStorageQuota(drive);
-console.log(pathGDrive.split('/'));
+//console.log(pathGDrive.split('/'));
 //fnCreateDirectoryStructureInGDrive(drive, pathGDrive.split('/'), 'root').then(list => console.log(JSON.stringify(list)));
 /*
 fnListFilesTreeToJSON(drive).then(tree => {
@@ -62,7 +68,7 @@ fnListFilesTreeToJSON(drive).then(tree => {
 	console.log(`Tree structure saved to ${nameFile}`);
 });
 */
-//fnShare(drive, '1JyyqwkD9EVeFe2A_88agEZBgCjh6QPZd', 'fullstackdev1.kabanitech@gmail.com');
+//fnShare(drive, '1_BGwqKKPX6AQG7E4IDBr4Ln_zXWHEInD', 'fullstackdev1.kabanitech@gmail.com');
 //fnShare(drive, '1k0g12mVRdh9GCgg-ewCv6CmUeD9Xr3t4', 'sem.athul.kabani@gmail.com');
 //fnSaveToDrive(nameFile, pathFileAbsolute, pathGDrive).then(infoFile => console.log(infoFile), err => console.error(err));
 
