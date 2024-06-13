@@ -268,6 +268,7 @@ function uploadFile(drive, nameFile, pathFile, idParentFolder) {
             const media = {
                 body: fileStream
             };
+            //console.log("Uploading...", nameFile, pathFile, idParentFolder)
             drive.files.create({
                 resource: fileMetadata,
                 media: media,
@@ -338,6 +339,7 @@ async function searchFile(drive, nameFile, idParentFolder) {
     return new Promise(async (resolve, reject) => {
         // Define the search query
         const query = `name='${nameFile}' ${idParentFolder === undefined ? '' : `and '${idParentFolder}' in parents`}`;
+        //console.log(query);
         // Search for files
         await drive.files.list({
             q: query,
@@ -355,7 +357,7 @@ async function searchFile(drive, nameFile, idParentFolder) {
                 } else {
                     /*
                     files.forEach(file => {
-                        //console.log('Files found: ' + ", ID: " + file.id + ", Name: " + file.name);
+                        console.log('Files found: ' + ", ID: " + file.id + ", Name: " + file.name);
                     });
                     */
                     resolve(files);
@@ -406,7 +408,7 @@ function deleteFile(drive, idFile) {
                 reject(err);
             } else {
                 if (response.data === "") {
-                    //console.log('File deleted successfully: ' + idFile);
+                    //console.log(`File deleted successfully: ${JSON.stringify(response)}`);
                     resolve(true);
                 }
             }

@@ -46,6 +46,7 @@ const pathFileAbsolute = path.join(nameDirStatic, pathFileRelative);
 const pathGDrive = path.join(rootFolderGDrive);
 
 const drive = google.drive({ version: 'v3', auth: authGDrive });
+fnClearGoogleDriveFolder(drive, rootFolderGDrive, 'root');
 /*
 searchFile(drive, "test_kemdes_uploads", "root").then(
 	(infoFileGDrive) => {
@@ -53,6 +54,44 @@ searchFile(drive, "test_kemdes_uploads", "root").then(
 	}
 );
 */
+
+async function fnClearGoogleDriveFolder(drive, nameFolder, idParentFolder) {
+	return new Promise(async (fnSuccess, fnFailure) => {
+		try {
+			let idParentFolder = 'root'
+			await searchFile(drive, rootFolderGDrive, idParentFolder).then(
+				async (listInfoFilesGDrive) => {
+					if (Array.isArray(listInfoFilesGDrive)) {
+						idParentFolder = listInfoFilesGDrive[0].id;
+						for (let j = 1; j < 11; j++) {
+							await searchFile(drive, "device" + j, idParentFolder).then(
+								async (listInfoFilesGDrive) => {
+									console.log("Found ?", listInfoFilesGDrive);
+									for (let i = 0; i < listInfoFilesGDrive.length; i++) {
+										console.log(listInfoFilesGDrive[i].id, listInfoFilesGDrive[i].name);
+										await deleteFile(drive, listInfoFilesGDrive[i].id).then(
+											(result) => {
+												console.log("Deleted ?", result);
+											}
+										);
+									}
+								}
+							);
+						}
+						fnSuccess();
+					}
+				},
+				err => {
+					console.error(err);
+					fnFailure(err);
+				}
+			);
+		} catch (err) {
+			console.error(err);
+			fnFailure(err);
+		}
+	});
+}
 //deleteFile(drive, "1FjCypPoqHJzbgbF9VAiEYPnx2KU8BzOt");
 //fnListFiles(drive);
 //fnListFilesWithParents(drive);

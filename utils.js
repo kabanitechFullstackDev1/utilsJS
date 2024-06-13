@@ -26,7 +26,8 @@ function fnIncludePrefixToConsole(dirname) {
 			const strYear = strDate.substring(0, 4);
 			const strMonth = strDate.substring(4, 6);
 			const strDay = strDate.substring(6, 8);
-			const strNameFileLog = `${strYear}-${strMonth}-${strDay}.log`;
+			const strHour = strDate.substring(8, 10);
+			const strNameFileLog = `${strYear}-${strMonth}-${strDay}_${strHour}.log`;
 			let strOtherArgs = JSON.stringify(firstArgument);
 			otherArguments.forEach(args => {
 				strOtherArgs += ", " + JSON.stringify(args);
