@@ -303,14 +303,25 @@ async function fnWriteJSONFile(nameFileWithPath, dataJSON) {
 	return new Promise((fnSuccess, fnFailure) => {
 		try {
 			let data = JSON.stringify(dataJSON);
-			fs.writeFileSync(nameFileWithPath, data);
-			if (fs.existsSync(nameFileWithPath)) {
-				//log(`${data} saved as ${nameFileWithPath}`);
-				fnSuccess(nameFileWithPath);
-			} else {
-				log(`File not found!!! ${nameFileWithPath}`);
-				fnFailure(new Error(`File not found!!! ${nameFileWithPath}`));
-			}
+			const nameFile = nameFileWithPath.split("/").at(-1);
+			const pathFile = nameFileWithPath.replace(nameFile, "");
+			// Ensure destination directory exists
+			fs.mkdir(pathFile, { recursive: true }, (err) => {
+				if (err) {
+					console.error('Error creating directory:', err);
+					fnFailure(err);
+				} else {
+					//console.log('Destination directory created successfully!');
+					fs.writeFileSync(nameFileWithPath, data);
+					if (fs.existsSync(nameFileWithPath)) {
+						//log(`${data} saved as ${nameFileWithPath}`);
+						fnSuccess(nameFileWithPath);
+					} else {
+						log(`File not found!!! ${nameFileWithPath}`);
+						fnFailure(new Error(`File not found!!! ${nameFileWithPath}`));
+					}
+				}
+			});
 		} catch (e) {
 			console.error(e);
 			fnFailure(e);
@@ -420,29 +431,29 @@ function fnConvertFloatMinutesToTimeString(floatMinutes) {
 }
 
 function fnFloatToPaddedString(floatValue, integerLength = 2, fractionLength = 2) {
-    // Ensure the input is a valid number
-    if (isNaN(floatValue)) {
-        throw new Error("Input must be a valid number");
-    }
+	// Ensure the input is a valid number
+	if (isNaN(floatValue)) {
+		throw new Error("Input must be a valid number");
+	}
 
-    // Separate the integer and fractional parts
-    const integerPart = Math.floor(floatValue);
-    const fractionalPart = floatValue - integerPart;
+	// Separate the integer and fractional parts
+	const integerPart = Math.floor(floatValue);
+	const fractionalPart = floatValue - integerPart;
 
-    // Convert integer part to a zero-padded string
-    const paddedIntegerPart = String(integerPart).padStart(integerLength, '0');
+	// Convert integer part to a zero-padded string
+	const paddedIntegerPart = String(integerPart).padStart(integerLength, '0');
 
-    // Convert fractional part to a zero-padded string
-    // Using toFixed to ensure correct number of decimal places, then slice to remove "0."
-    const paddedFractionalPart = String(fractionalPart.toFixed(fractionLength)).slice(2);
+	// Convert fractional part to a zero-padded string
+	// Using toFixed to ensure correct number of decimal places, then slice to remove "0."
+	const paddedFractionalPart = String(fractionalPart.toFixed(fractionLength)).slice(2);
 
-    // Construct the final padded string
-    return `${paddedIntegerPart}.${paddedFractionalPart}`;
+	// Construct the final padded string
+	return `${paddedIntegerPart}.${paddedFractionalPart}`;
 }
 
 function fnFmtFloatWithZeroPad(numFloat, nDecimalDigits, nTotalDigits) {
-    let formattedNumber = numFloat.toFixed(nDecimalDigits);  // Ensures single digit precision
-    return formattedNumber.padStart(nTotalDigits, '0');  // Pads with zeros to ensure at least nTotalDigits characters (including the decimal point)
+	let formattedNumber = numFloat.toFixed(nDecimalDigits);  // Ensures single digit precision
+	return formattedNumber.padStart(nTotalDigits, '0');  // Pads with zeros to ensure at least nTotalDigits characters (including the decimal point)
 }
 
 
