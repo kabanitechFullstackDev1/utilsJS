@@ -303,7 +303,7 @@ async function fnWriteJSONFile(nameFileWithPath, dataJSON) {
 	return new Promise((fnSuccess, fnFailure) => {
 		try {
 			let data = JSON.stringify(dataJSON);
-			const nameFile = nameFileWithPath.split("/").at(-1);
+			const nameFile = (nameFileWithPath.split(path.sep)).at(-1);
 			const pathFile = nameFileWithPath.replace(nameFile, "");
 			// Ensure destination directory exists
 			fs.mkdir(pathFile, { recursive: true }, (err) => {
