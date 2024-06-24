@@ -311,13 +311,14 @@ async function searchFolder(drive, nameFolder, idParentFolder) {
     //console.log(nameFolder, idParentFolder);
     return new Promise((resolve, reject) => {
         const query = `name='${nameFolder}' ${idParentFolder === undefined ? '' : `and '${idParentFolder}' in parents`} and mimeType='application/vnd.google-apps.folder'`
+        //console.log(query);
         drive.files.list({
             q: query,
             fields: 'files(id, name)',
             spaces: 'drive',
         }, (err, res) => {
             if (err) {
-                console.error('Error listing folders:', err);
+                console.error('Error listing folders:');
                 reject(err);
             } else {
                 const folders = res.data.files;
