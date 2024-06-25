@@ -46,14 +46,14 @@ const pathFileAbsolute = path.join(nameDirStatic, pathFileRelative);
 const pathGDrive = path.join(rootFolderGDrive);
 
 const drive = google.drive({ version: 'v3', auth: authGDrive });
-fnClearGoogleDriveFolder(drive, rootFolderGDrive, 'root');
-/*
+//fnClearGoogleDriveFolder(drive, rootFolderGDrive, 'root');
+
 searchFile(drive, "test_kemdes_uploads", "root").then(
 	(infoFileGDrive) => {
 		console.log(infoFileGDrive);
 	}
 );
-*/
+
 
 async function fnClearGoogleDriveFolder(drive, nameFolder, idParentFolder) {
 	return new Promise(async (fnSuccess, fnFailure) => {
